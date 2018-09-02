@@ -24,7 +24,9 @@ export default {
     getData () {
       var _self = this
       fetch(apiRoot + '/categories/')
+      // fetch('/wp-json/wp/v2/categories/')
         .then(function (response) {
+          console.log(response)
           return response.json()
         }).then(function (json) {
           console.log('nav parsed json', json)
