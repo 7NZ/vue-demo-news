@@ -8,7 +8,7 @@
           {{i.title.rendered}}
         </router-link>
       </li>
-      <div v-if="!flag">加载中...</div>
+      <div class="loading" v-if="!flag"><p>加载中...</p></div>
       <!-- <div v-if="dataIsempty()">没有数据</div> -->
     </ul>
   </div>
@@ -57,6 +57,7 @@ export default {
         // 进入主页首次加载获取列表api路径
         url = apiRoot + '/posts/'
       }
+      that.flag = false
       fetch(url)
         .then(function (response) {
           return response.json()
@@ -64,7 +65,16 @@ export default {
           console.log('list parsed json', json)
           that.list = json
           that.flag = true
-        }).catch(function (ex) {
+          return fetch(apiRoot + '/media?parent=74751')
+        }).then(function (res) {
+          // console.log('2nd res', res.json())
+          return res.json()
+        }).then(function (res) {
+          console.log('2nd after', res)
+          var imgUrl = res[0].source_url // 缩略图
+          console.log(imgUrl)
+        })
+        .catch(function (ex) {
           console.log('parsing failed', ex)
         })
     },
